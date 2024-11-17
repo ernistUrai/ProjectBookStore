@@ -1,16 +1,2 @@
-POST http://127.0.0.1:8000/api/register
+GET http://127.0.0.1:8000/books/127.0.0.1:8000/books/api/books/1/
 Content-Type: application/json
-
-{
-    "username": "test",
-    "password": "123"
-}
-###
-
-GET http://127.0.0.1:8000/api/login
-Content-Type: application/json
-
-{
-    "username": "test",
-    "password": "123"
-}
