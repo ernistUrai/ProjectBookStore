@@ -1,2 +1,12 @@
 GET http://127.0.0.1:8000/books/127.0.0.1:8000/books/api/books/1/
 Content-Type: application/json
+
+###
+GET  http://127.0.0.1:8000/users/api/signup/
+Content-Type: application/json
+
+{
+    "username": "test",
+    "email": "test@test.ru",
+    "password": "123456"
+}
