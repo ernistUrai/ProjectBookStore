@@ -1,21 +1,45 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer
-from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
 
 @api_view(['POST'])
 def signup(request):
     data = request.data
-    serializer = UserSerializer(data=data)
-    
-    if serializer.is_valid():
-        user = serializer.save()
-        user.set_password(data['password'])  # Паролду хэш кылып сактоо
+    serializers = UserSerializer(data=data)
+    if serializers.is_valid():
+        user = serializers.save()
+        user.set_password(data['password'])
         user.save()
-        
-        token, created = Token.objects.get_or_create(user=user)  # Токенди алуу же түзүү
-        return Response({'token': token.key}, status=status.HTTP_201_CREATED)  # Успешный жооп
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key})
+     
+    return Response({'message': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
     
-    return Response({'message': 'ERROR', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)  # Ката жөнүндө маалымат
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({'message': 'User  not found!'}, status=status.HTTP_404_NOT_FOUND)
+
+    if not user.check_password(password):
+        return Response({'message': 'Wrong Password!'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    token, created = Token.objects.get_or_create(user=user)
+    
+    return Response({'token': token.key})
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def test_token(request):
+    return Response({'message': 'SUCCESS'})

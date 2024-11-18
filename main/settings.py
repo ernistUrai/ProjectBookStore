@@ -44,7 +44,6 @@ DJANGO_APPS = [
         
     'rest_framework',
     'rest_framework.authtoken',    
-    'djoser',   
     
 ]
 
@@ -56,15 +55,7 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -168,25 +159,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     'SERIALIZERS': {},
 # }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'AUTH_HEADER_TYPES': ('jwt',),
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-}
-
-DJOSER = {
-    'USER_ID_FIELD': 'id',
-    'USERNAME_FIELD': 'username',
-    'PASSWORD_FIELD': 'password',
-    'EMAIL_FIELD': 'email',
-   
-}

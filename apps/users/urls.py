@@ -1,9 +1,9 @@
-from django.contrib import admin
-from django.urls import path, include
-from .views import signup
+from django.urls import path
+from .views import *
 
 
 urlpatterns = [
-    path('register', signup, name="register"),
-   
+    path('api/signup/', signup, name='signup'),
+    path('api/login/', login, name='login'),
+    path('api/test_token/', test_token, name='test_token'),
 ]

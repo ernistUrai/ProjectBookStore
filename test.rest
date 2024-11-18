@@ -4,31 +4,31 @@ Content-Type: application/json
 ###
 GET  http://127.0.0.1:8000/api/books/1/
 Content-Type: application/json
-
 ###
-POST http://127.0.0.1:8000/api/auth/users/
+POST http://127.0.0.1:8000/api/books/
 Content-Type: application/json
 
-{
-    "username": "test",
-    "email": "test@test.ru",
-    "password": "user123456"
-}
 
 ###
-POST http://127.0.0.1:8000/api/auth/users/
+POST  http://127.0.0.1:8000/api/signup/
 Content-Type: application/json
 
-{
-    "username": "erass",
-    "email": "test@test.ru",
-    "password": "user123456"
-}
+    {
+        "username": "AlisA",
+        "email": "alis@gmail.com",
+        "password": "alis123"
+    }
+
 ###
-POST http://127.0.0.1:8000/api/auth/jwt/create/
+POST http://127.0.0.1:8000/api/login/
 Content-Type: application/json
 
-{
-    "username": "erass",
-    "password": "user123456"
-}
+    {
+        "username": "Alis",
+        "password": "alis123"
+    }
+
+###
+GET http://127.0.0.1:8000/api/test_token/
+Content-Type: application/json
+Authorization: Token cf2bf627ea20ecccc82546a76f480421678d8d7e
