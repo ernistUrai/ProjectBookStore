@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from rest_framework.authtoken.models import Token as DefaultToken
 
-class CustomUser(AbstractUser):
-    pass
+class Token(DefaultToken):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
