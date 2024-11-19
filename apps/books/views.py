@@ -59,7 +59,7 @@ class Orderview(APIView):
         
         total_price = sum([book.price for book in book_objects])
         
-        order = Order.objects.create(т
+        order = Order.objects.create(
             user=request.user,
             delivery_address=delivery_address,
             total_price=total_price,
