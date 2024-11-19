@@ -1,28 +1,42 @@
-GET   http://127.0.0.1:8000/books/127.0.0.1:8000/books/api/books/
+### Получение всех книг
+GET http://127.0.0.1:8000/api/books/
+Content-Type: application/json
+
+### Получение книги по id
+PATCH   http://127.0.0.1:8000/api/books/2/
+Content-Type: application/json
+
+### Поиск книг
+GET http://127.0.0.1:8000/api/books/search/?search=Жамила
 Content-Type: application/json
 
 ###
-POST   http://127.0.0.1:8000/users/api/signup/
+GET http://127.0.0.1:8000/api/books/search/?search=1200s
+
+
+
+### Регистрация
+POST   http://127.0.0.1:8000/api/auth/register/
 Content-Type: application/json
 
 {
-    "username": "ERMIST",
+    "username": "Asai",
     "email": "test@test.ru",
     "password": "123456"
     
 }
-###
-POST   http://127.0.0.1:8000/users/api/login/ 
+
+### Логин
+POST   http://127.0.0.1:8000/api/auth/login/ 
 Content-Type: application/json
 
 {
-    "username": "ERMIST",
+    "username": "Айбек",
     "password": "123456"
     
 }
 
-###
-
-GET http://127.0.0.1:8000/users/api/test_token/
+### Тест токена
+GET http://127.0.0.1:8000/api/auth/test_token/
 Content-Type: application/json  
-Authorization: Token daf2a318fe7cbd56eff379cc6ade9be5196f8dbc
+Authorization: Token 30c620ecff918175ef15da6ccb97969d2d0dd531

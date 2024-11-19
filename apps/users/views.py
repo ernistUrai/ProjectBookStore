@@ -19,7 +19,12 @@ def signup(request):
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
      
-    return Response({'message': 'ERROR'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'message': 'Такой имени пользователя уже существует!',
+                     'message2': 'Пожалуйста, Попробуйте еще раз!',
+                     
+                     },
+                    status=status.HTTP_400_BAD_REQUEST
+                    )
 
 @api_view(['POST'])
 def login(request):
@@ -29,10 +34,10 @@ def login(request):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return Response({'message': 'User  not found!'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'message': 'Не найден пользователь!'}, status=status.HTTP_404_NOT_FOUND)
 
     if not user.check_password(password):
-        return Response({'message': 'Wrong Password!'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'message': 'Не верный пароль!'}, status=status.HTTP_401_UNAUTHORIZED)
 
     token, created = Token.objects.get_or_create(user=user)
     
@@ -42,4 +47,4 @@ def login(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
-    return Response({'message': 'SUCCESS'})
+    return Response({'message': 'Успешно!'}, status=status.HTTP_200_OK)
