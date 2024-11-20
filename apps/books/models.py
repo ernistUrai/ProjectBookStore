@@ -37,10 +37,28 @@ class Order(models.Model):
     books = models.ManyToManyField('books.Book')       
     total_price = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2)      
     delivery_address = models.CharField('Адрес доставки', max_length=100)       
-    paiment_status = models.CharField('Статус оплаты', max_length=100, default="new")      
+    paiment_status = models.CharField('Статус оплаты', max_length=100)      
     order_status = models.CharField('Статус заказа', max_length=100, choices=STATUS_CHOICES, default="new")     
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)       
     
     def __str__(self):
         return f'Заказ от {self.user.username}'
     
+    
+class ComentBook(models.Model):
+    RATING_CHOICES = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+    )
+    
+    book = models.ForeignKey(Book,  related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField('Комментарий')
+    rating_book = models.CharField('Рейтинг книги', max_length=25, choices=RATING_CHOICES, default="1")
+    created_data = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+    
+    def __str__(self): 
+        return f'Комментарий к книге {self.book.title} от {self.user.username}'

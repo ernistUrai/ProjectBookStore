@@ -2,29 +2,63 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Q
 
-from .models import Book, Order
-from .serializers import BookSerializer, OrderSerializer
+from .models import Book, Order, ComentBook
+from .serializers import BookSerializer, OrderSerializer, ComentBookSerializer
 
 
 
 class BookListCreateAPiView(generics.ListCreateAPIView):
-  
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     
     
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     
+    def get(self, request, *args, **kwargs):
+        book = self.get_object() 
+        book_serializer = self.get_serializer(book) 
+        comments = book.comments.all() 
+        comment_serializer = ComentBookSerializer(comments, many=True) 
+        
+        response_data = book_serializer.data
+        response_data['comments'] = comment_serializer.data
+        
+        return Response(response_data)
+    
+    
+class ComentBookAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-# Поиск 
+    def get(self, request, book_id):
+        try:
+            book = Book.objects.get(id=book_id)
+        except Book.DoesNotExist:
+            return Response({'message': 'Книга не найдена'}, status=status.HTTP_404_NOT_FOUND)
+        
+        coment_book = ComentBook.objects.filter(book=book)
+        serializer = ComentBookSerializer(coment_book, many=True)  # Сериализатордун атын текшериңиз
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, book_id):
+        try:
+            book = Book.objects.get(id=book_id)
+        except Book.DoesNotExist:
+            return Response({'message': 'Книга не найдена'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ComentBookSerializer(data=request.data)  # Сериализатордун атын текшериңиз
+        if serializer.is_valid():
+            serializer.save(book=book)  # book параметрин сактоо
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+    # Поиск 
 class BookSearchView(APIView):
     def get(self, request):
         search = request.GET.get('search')
@@ -81,3 +115,8 @@ class UserOrderListView(APIView):
         order = Order.objects.filter(user=request.user)
         serializer = OrderSerializer(order, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+   
