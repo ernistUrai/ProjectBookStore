@@ -21,8 +21,8 @@ POST   http://127.0.0.1:8000/api/auth/register/
 Content-Type: application/json
 
 {
-    "username": "Lili",
-    "email": "lili@test.ru",
+    "username": "alisa",
+    "email": "alisa@test.ru",
     "password": "123456"
     
 }
@@ -32,7 +32,7 @@ POST   http://127.0.0.1:8000/api/auth/login/
 Content-Type: application/json
 
 {
-    "username": "Айбек",
+    "username": "alisa",
     "password": "123456"
     
 }
@@ -40,7 +40,7 @@ Content-Type: application/json
 ### Тест токена
 GET http://127.0.0.1:8000/api/auth/test_token/
 Content-Type: application/json  
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token edd9a8e28cc8e1cfd6462531afe9b6614d95c856
 
 ###
 
@@ -55,7 +55,7 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
 ### Заказ түзүү
 POST http://127.0.0.1:8000/api/books/orders/
 Content-Type: application/json
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token edd9a8e28cc8e1cfd6462531afe9b6614d95c856
 
 {  
     "books": [1],
@@ -66,7 +66,7 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
 
 ### Заказдарды алуу
 GET http://127.0.0.1:8000/api/books/orders/1/
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token edd9a8e28cc8e1cfd6462531afe9b6614d95c856
 
 {
     "order_status": "создан",
@@ -80,7 +80,7 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
 ###
 GET http://127.0.0.1:8000/api/books/2/coments/
 Content-Type: application/json
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token edd9a8e28cc8e1cfd6462531afe9b6614d95c856
 
 ###
 POST  http://127.0.0.1:8000/api/books/1/coments/
