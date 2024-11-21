@@ -53,7 +53,7 @@ class ComentBookAPIView(APIView):
             return Response({'message': 'Книга не найдена'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = ComentBookSerializer(data=request.data)  # Сериализатордун атын текшериңиз
-        if serializer.is_valid():
+        if serializer.is_valid(): 
             serializer.save(book=book)  # book параметрин сактоо
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

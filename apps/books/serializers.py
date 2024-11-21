@@ -14,7 +14,7 @@ class CategorySerializer(serializers.ModelSerializer):
     comments = ComentBookSerializer(many=True, read_only=True)
     
     class Meta:
-        modek = Category
+        model = Category
         fields = '__all__'
         
 
