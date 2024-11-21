@@ -1,39 +1,3 @@
-<<<<<<< HEAD
-GET  http://127.0.0.1:8000/api/books/
-Content-Type: application/json
-
-###
-GET  http://127.0.0.1:8000/api/books/1/
-Content-Type: application/json
-###
-POST http://127.0.0.1:8000/api/books/
-Content-Type: application/json
-
-
-###
-POST  http://127.0.0.1:8000/api/signup/
-Content-Type: application/json
-
-    {
-        "username": "AlisA",
-        "email": "alis@gmail.com",
-        "password": "alis123"
-    }
-
-###
-POST http://127.0.0.1:8000/api/login/
-Content-Type: application/json
-
-    {
-        "username": "Alis",
-        "password": "alis123"
-    }
-
-###
-GET http://127.0.0.1:8000/api/test_token/
-Content-Type: application/json
-Authorization: Token cf2bf627ea20ecccc82546a76f480421678d8d7e
-=======
 ### Получение всех книг
 GET http://127.0.0.1:8000/api/books/
 Content-Type: application/json
@@ -129,4 +93,3 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
     "rating_book": 3,
     "book": 1
 }
->>>>>>> ernist

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-from rest_framework import viewsets
-from .models import Book
-from .serializers import BookSerializer
-=======
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter
@@ -16,7 +11,6 @@ from .models import Book, Order, ComentBook
 from .serializers import BookSerializer, OrderSerializer, ComentBookSerializer
 
 
->>>>>>> ernist
 
 class BookListCreateAPiView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
