@@ -42,11 +42,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
         
     'rest_framework',
-<<<<<<< HEAD
-    'rest_framework.authtoken',    
-=======
     'rest_framework.authtoken',   
->>>>>>> ernist
     
 ]
 
@@ -58,10 +54,6 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ernist
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -154,22 +146,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-<<<<<<< HEAD
-
-
-
-# DJOSER = {
-#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'SERIALIZERS': {},
-# }
-
-=======
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
->>>>>>> ernist
