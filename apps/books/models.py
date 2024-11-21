@@ -12,13 +12,24 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField('Название книги', max_length=100)
+    title = models.CharField('Китептин аталышы', max_length=100)
     author = models.CharField('Автор', max_length=100)
-    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    publication_year = models.PositiveBigIntegerField('Год публикации книги')
-    image = models.ImageField('Фотография книги' )
-    description = models.TextField('Описание книги')
+    price = models.DecimalField('Баасы', max_digits=10, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+    publication_year = models.PositiveBigIntegerField('Басылган жылы')
+    image = models.ImageField('Китептин сүрөтү', upload_to='books/')
+    description = models.TextField('Китептин сүрөттөмөсү')
+    isbn = models.CharField('ISBN', max_length=13, unique=True, null=True, blank=True)
+    pages = models.PositiveIntegerField('Беттердин саны', default=0)
+    stock = models.PositiveIntegerField('Саны', default=0)
+    discount_price = models.DecimalField('Арзандатылган баа', max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    @property
+    def average_rating(self):
+        ratings = self.comments.all().values_list('rating_book', flat=True)
+        if ratings:
+            return sum(int(r) for r in ratings) / len(ratings)
+        return 0
     
     def __str__(self):
         return self.title

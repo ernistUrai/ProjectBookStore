@@ -11,17 +11,15 @@ class ComentBookSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    comments = ComentBookSerializer(many=True, read_only=True)
-    
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('id', 'name')
         
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'        # fields = ['id', 'title', 'author', 'price', 'created_at', 'updated_at']
+        fields = '__all__'     
 
 
 class OrderSerializer(serializers.ModelSerializer): 
@@ -30,4 +28,4 @@ class OrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Order
-        fields = '__all__'        
+        fields = '__all__'

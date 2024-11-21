@@ -7,3 +7,4 @@ urlpatterns = [
     path('auth/login/', login, name='login'),
     path('auth/test_token/', test_token, name='test_token'),
 ]
+
