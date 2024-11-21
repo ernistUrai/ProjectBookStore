@@ -6,4 +6,7 @@ pillow==11.0.0
 PyJWT==2.10.0
 python-decouple==3.8
 sqlparse==0.5.2
+<<<<<<< HEAD
 djoser 
+=======
+>>>>>>> ernist

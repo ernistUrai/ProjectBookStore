@@ -27,7 +27,6 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = []
-# AUTH_USER_MODEL = 'books.CustomUser'
 
 APPEND_SLASH = False
 
@@ -43,7 +42,11 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
         
     'rest_framework',
+<<<<<<< HEAD
     'rest_framework.authtoken',    
+=======
+    'rest_framework.authtoken',   
+>>>>>>> ernist
     
 ]
 
@@ -55,7 +58,10 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ernist
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,6 +154,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+<<<<<<< HEAD
 
 
 
@@ -159,3 +166,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     'SERIALIZERS': {},
 # }
 
+=======
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+>>>>>>> ernist
