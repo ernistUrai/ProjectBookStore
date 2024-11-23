@@ -6,7 +6,7 @@ from .models import Book, Category
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        modek = Category
+        model = Category
         fields = '__all__'
         
 

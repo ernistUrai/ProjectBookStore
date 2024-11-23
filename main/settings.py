@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = "django-insecure-l+1*5#=(i8det2ewiqr$u-e@w9rqf47zboq0$qrf_g&9adb-9*"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG=True
 
 ALLOWED_HOSTS = []
 # AUTH_USER_MODEL = 'books.CustomUser'
@@ -44,12 +44,13 @@ DJANGO_APPS = [
         
     'rest_framework',
     'rest_framework.authtoken',    
+
     
 ]
 
 PROJECT_APPS = [
     'apps.books',
-    'apps.users'
+    'apps.users',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
