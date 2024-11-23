@@ -27,7 +27,6 @@ SECRET_KEY = "django-insecure-l+1*5#=(i8det2ewiqr$u-e@w9rqf47zboq0$qrf_g&9adb-9*
 DEBUG=True
 
 ALLOWED_HOSTS = []
-# AUTH_USER_MODEL = 'books.CustomUser'
 
 APPEND_SLASH = False
 
@@ -43,8 +42,12 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
         
     'rest_framework',
+<<<<<<< HEAD
     'rest_framework.authtoken',    
 
+=======
+    'rest_framework.authtoken',   
+>>>>>>> 5d71be46f83a80a2a448b3585ee0229362558250
     
 ]
 
@@ -54,7 +57,6 @@ PROJECT_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
-
 
 
 
@@ -149,14 +151,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
-
-
-# DJOSER = {
-#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'SERIALIZERS': {},
-# }
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
