@@ -42,12 +42,8 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
         
     'rest_framework',
-<<<<<<< HEAD
     'rest_framework.authtoken',    
 
-=======
-    'rest_framework.authtoken',   
->>>>>>> 5d71be46f83a80a2a448b3585ee0229362558250
     
 ]
 
