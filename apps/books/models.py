@@ -4,11 +4,26 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+ 
 class Category(models.Model):
     name = models.CharField('Название категории', max_length=100)
     
     def __str__(self):
         return self.name
+    
+    
+class Author(models.Model):
+    name = models.CharField('Имя автора', max_length=100)
+    year_birth = models.PositiveSmallIntegerField('Год рождения')
+    life_story = models.TextField('Краткая биография')
+    aut_image = models.ImageField('Фотография автора')
+    aut_books = models.ManyToManyField('books.Book', related_name='aut_books', blank=True)
+    created_data = models.DateTimeField(auto_now_add=True)    
+    
+    def __str__(self):
+        return self.name
+    
+    
 
 
 class Book(models.Model):
@@ -48,12 +63,9 @@ class Order(models.Model):
     books = models.ManyToManyField('books.Book')       
     total_price = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2)      
     delivery_address = models.CharField('Адрес доставки', max_length=100)       
-    paiment_status = models.CharField('Статус оплаты', max_length=100)      
-    order_status = models.CharField('Статус заказа', max_length=100, choices=STATUS_CHOICES, default="new")     
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True)       
-    
-    def __str__(self):
-        return f'Заказ от {self.user.username}'
+    payment_status = models.CharField('Статус оплаты', max_length=100)  
+    order_status = models.CharField('Статус заказа', max_length=100, choices=STATUS_CHOICES, default='new')     
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True) 
     
     
 class ComentBook(models.Model):
@@ -65,11 +77,25 @@ class ComentBook(models.Model):
         ('5', '5'),
     )
     
-    book = models.ForeignKey(Book,  related_name='comments', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book,  related_name='coments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.TextField('Комментарий')
+    coment = models.TextField('Комментарий')
     rating_book = models.CharField('Рейтинг книги', max_length=25, choices=RATING_CHOICES, default="1")
     created_data = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
     
     def __str__(self): 
         return f'Комментарий к книге {self.book.title} от {self.user.username}'
+    
+    
+    
+class FavoriteBook(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    created_data = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
+    
+    class Meta:
+        unique_together = ('user', 'book')
+    
+    def __str__(self):
+        return f"{self.user.username} добавил книгу {self.book.title} в избранное"
+    

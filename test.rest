@@ -1,11 +1,24 @@
 ### Получение всех книг
-GET http://127.0.0.1:8000/api/books/
+GET   http://127.0.0.1:8000/api/books/
 Content-Type: application/json
+
+
 
 
 ### Получение книги по id
-GET http://127.0.0.1:8000/api/books/2/
+GET http://127.0.0.1:8000/api/books/3/
 Content-Type: application/json
+
+### Получение книги по id
+DELETE  http://127.0.0.1:8000/api/books/1/
+Content-Type: application/json
+
+
+
+###
+GET http://127.0.0.1:8000/api/books/authors/ 
+Content-Type: application/json  
+
 
 ### Поиск книг
 GET http://127.0.0.1:8000/api/books/search/?search=Жамила
@@ -21,8 +34,8 @@ POST   http://127.0.0.1:8000/api/auth/register/
 Content-Type: application/json
 
 {
-    "username": "Lili",
-    "email": "lili@test.ru",
+    "username": "alisa",
+    "email": "alisa@test.ru",
     "password": "123456"
     
 }
@@ -32,7 +45,7 @@ POST   http://127.0.0.1:8000/api/auth/login/
 Content-Type: application/json
 
 {
-    "username": "Айбек",
+    "username": "alisa",
     "password": "123456"
     
 }
@@ -40,9 +53,13 @@ Content-Type: application/json
 ### Тест токена
 GET http://127.0.0.1:8000/api/auth/test_token/
 Content-Type: application/json  
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
 ###
+### Получение списка избранных книг
+GET http://127.0.0.1:8000/api/books/favorite/
+Content-Type: application/json
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
 
 
@@ -55,18 +72,19 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
 ### Заказ түзүү
 POST http://127.0.0.1:8000/api/books/orders/
 Content-Type: application/json
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
-{  
+{
     "books": [1],
-    "delivery_address": " Бишкек",
-    "paiment_status": "С картой"
-
+    "user": "1",
+    "delivery_address": "Ленинград",
+    "total_price": "100",
+    "paiment_status": "c картой"
 }
 
 ### Заказдарды алуу
 GET http://127.0.0.1:8000/api/books/orders/1/
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
 {
     "order_status": "создан",
@@ -80,16 +98,18 @@ Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
 ###
 GET http://127.0.0.1:8000/api/books/2/coments/
 Content-Type: application/json
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
 ###
-POST  http://127.0.0.1:8000/api/books/1/coments/
+POST  http://127.0.0.1:8000/api/books/3/coments/
 Content-Type: application/json
-Authorization: Token c1ead1d919a83523553ea6da07ba2601cf050ca3
+Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
 
 {
-    "user": 13,
-    "comment": "Они не понимает что такое книга",
-    "rating_book": 3,
-    "book": 1
+    "coment": "Жамила жамила",
+    "book": 3,
+    "rating": 5,
+    "user": 1
 }
+
+####
