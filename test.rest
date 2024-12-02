@@ -6,17 +6,17 @@ Content-Type: application/json
 
 
 ### Получение книги по id
-GET http://127.0.0.1:8000/api/books/3/
+GET http://127.0.0.1:8000/api/books/1/
 Content-Type: application/json
 
 ### Получение книги по id
-DELETE  http://127.0.0.1:8000/api/books/1/
+POST  http://127.0.0.1:8000/api/books/3/
 Content-Type: application/json
 
 
 
 ###
-GET http://127.0.0.1:8000/api/books/authors/ 
+GET http://127.0.0.1:8000/api/authors/
 Content-Type: application/json  
 
 
@@ -34,8 +34,8 @@ POST   http://127.0.0.1:8000/api/auth/register/
 Content-Type: application/json
 
 {
-    "username": "alisa",
-    "email": "alisa@test.ru",
+    "username": "test",
+    "email": "test@test.ru",
     "password": "123456"
     
 }
@@ -45,7 +45,7 @@ POST   http://127.0.0.1:8000/api/auth/login/
 Content-Type: application/json
 
 {
-    "username": "alisa",
+    "username": "test",
     "password": "123456"
     
 }
@@ -53,62 +53,60 @@ Content-Type: application/json
 ### Тест токена
 GET http://127.0.0.1:8000/api/auth/test_token/
 Content-Type: application/json  
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 
 ###
 ### Получение списка избранных книг
 GET http://127.0.0.1:8000/api/books/favorite/
 Content-Type: application/json
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 
 
 
-
-
-
-
-
-
-### Заказ түзүү
-POST http://127.0.0.1:8000/api/books/orders/
+###
+POST http://127.0.0.1:8000/api/cart/
 Content-Type: application/json
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 
 {
-    "books": [1],
-    "user": "1",
-    "delivery_address": "Ленинград",
-    "total_price": "100",
-    "paiment_status": "c картой"
+    "user": "3"
 }
 
-### Заказдарды алуу
-GET http://127.0.0.1:8000/api/books/orders/1/
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
+### Получение количества товаров в корзине
+GET http://127.0.0.1:8000/api/cart/
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+
+
+### Добавление товара в корзину
+POST http://127.0.0.1:8000/api/cart-items/
+Content-Type: application/json
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 
 {
-    "order_status": "создан",
-    "paiment_status": "возвращен"
+    "cart": 3,
+    "book": 1
 }
-###
 
 
-
-
-###
-GET http://127.0.0.1:8000/api/books/2/coments/
+### 
+POST http://127.0.0.1:8000/api/orders/
 Content-Type: application/json
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
-
-###
-POST  http://127.0.0.1:8000/api/books/3/coments/
-Content-Type: application/json
-Authorization: Token 7ad4e082e0b3e74edae06d8f2a8ec59fcd88ba23
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 
 {
-    "coment": "Жамила жамила",
-    "book": 3,
-    "rating": 5,
-    "user": 1
+    "user": 1,
+    "cart": 3,
+    "delivery_address": "Kyrgyzstan",
+    "total_price": 1000,
+    "payment_status": "Наличными"
+
 }
+
+### Получение списка заказов
+GET http://127.0.0.1:8000/api/orders/
+Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+
+
 ###
+
+

@@ -3,8 +3,8 @@ from .views import *
 
 
 urlpatterns = [
-    path('auth/register/', signup, name='signup'),
-    path('auth/login/', login, name='login'),
-    path('auth/test_token/', test_token, name='test_token'),
+    path('register/', signup, name='signup'),
+    path('login/', login, name='login'),
+    path('test_token/', test_token, name='test_token'),
 ]
 

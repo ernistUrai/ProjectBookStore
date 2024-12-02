@@ -27,21 +27,18 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField('Китептин аталышы', max_length=100)
-    author = models.CharField('Автор', max_length=100)
-    price = models.DecimalField('Баасы', max_digits=10, decimal_places=2)
+    title = models.CharField('Названия книги', max_length=100)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
+    price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
-    publication_year = models.PositiveBigIntegerField('Басылган жылы')
+    publication_year = models.PositiveBigIntegerField('Год издания')
     image = models.ImageField('Китептин сүрөтү', upload_to='books/')
     description = models.TextField('Китептин сүрөттөмөсү')
     isbn = models.CharField('ISBN', max_length=13, unique=True, null=True, blank=True)
-    pages = models.PositiveIntegerField('Беттердин саны', default=0)
-    stock = models.PositiveIntegerField('Саны', default=0)
-    discount_price = models.DecimalField('Арзандатылган баа', max_digits=10, decimal_places=2, null=True, blank=True)
     
     @property
     def average_rating(self):
-        ratings = self.comments.all().values_list('rating_book', flat=True)
+        ratings = self.coments.all().values_list('rating_book', flat=True)
         if ratings:
             return sum(int(r) for r in ratings) / len(ratings)
         return 0
@@ -51,22 +48,7 @@ class Book(models.Model):
     
     
 
-class Order(models.Model):
-    STATUS_CHOICES = (
-        ('new', 'Новый'),
-        ('in_progress', 'В процессе'),
-        ('done', 'Готов'),
-        ('canceled', 'Отменен'),
-    )
-    
-    user = models.ForeignKey(User, on_delete=models.CASCADE)        
-    books = models.ManyToManyField('books.Book')       
-    total_price = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2)      
-    delivery_address = models.CharField('Адрес доставки', max_length=100)       
-    payment_status = models.CharField('Статус оплаты', max_length=100)  
-    order_status = models.CharField('Статус заказа', max_length=100, choices=STATUS_CHOICES, default='new')     
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True) 
-    
+
     
 class ComentBook(models.Model):
     RATING_CHOICES = (
@@ -88,14 +70,36 @@ class ComentBook(models.Model):
     
     
     
-class FavoriteBook(models.Model):
+class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    created_data = models.DateTimeField('Дата создания', auto_now_add=True, null=True)
-    
-    class Meta:
-        unique_together = ('user', 'book')
+    created_data = models.DateTimeField('Дата создания', auto_now_add=True)
     
     def __str__(self):
-        return f"{self.user.username} добавил книгу {self.book.title} в избранное"
+        return self.user.username
     
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField('Количество', default=1)
+    
+    def __str__(self):
+        return f'{self.quantity} {self.book.title} {self.cart} '
+
+
+class Order(models.Model):
+    STATUS_CHOICES = (
+        ('С картой', 'С картой'),
+        ('Наличными', 'Наличными'),
+        )           
+    
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    total_price = models.DecimalField('Сумма заказа', max_digits=10, decimal_places=2)    
+    delivery_address = models.CharField('Адрес доставки', max_length=100)       
+    payment_status = models.CharField('Статус оплаты', max_length=50, choices=STATUS_CHOICES)  
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True) 
+
+    def __str__(self):
+        return f'Заказ от {self.user.username}'
