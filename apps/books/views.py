@@ -22,14 +22,13 @@ class AuthorListAPIView(viewsets.ReadOnlyModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         author = self.get_object()
         author_serializer = self.get_serializer(author)
-        books = author.aut_books.all()
+        books = author.books.all()
         book_serializer = BookSerializer(books, many=True)
         
         response_data = author_serializer.data
         response_data['books'] = book_serializer.data
         return Response(response_data, status=status.HTTP_200_OK)
         
-
     
 
 
@@ -46,14 +45,7 @@ class BookListApiView(viewsets.ReadOnlyModelViewSet):
         response_data = book_serializer.data
         response_data['coments'] = coment_serializer.data
         return Response(response_data, status=status.HTTP_200_OK)
-    
-
-    
-    
-
-    
-    
-   
+     
     
     
 class ComentBookAPIView(viewsets.ModelViewSet):

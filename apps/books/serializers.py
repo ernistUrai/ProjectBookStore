@@ -3,11 +3,6 @@ from .models import Book, Category, Order, ComentBook, Author, CartItem, Cart
 from apps.users.serializers import UserSerializer
 
 
-class AuthorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Author  
-        fields = '__all__'
-
 
 
 class ComentBookSerializer(serializers.ModelSerializer):
@@ -28,7 +23,16 @@ class BookSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Book
-        fields = '__all__'     
+        fields = '__all__' 
+        
+
+class AuthorSerializer(serializers.ModelSerializer):
+    book = BookSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Author  
+        fields = '__all__'
+    
 
 
 class OrderSerializer(serializers.ModelSerializer): 

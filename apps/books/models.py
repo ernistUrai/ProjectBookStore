@@ -17,7 +17,6 @@ class Author(models.Model):
     year_birth = models.PositiveSmallIntegerField('Год рождения')
     life_story = models.TextField('Краткая биография')
     aut_image = models.ImageField('Фотография автора')
-    aut_books = models.ManyToManyField('books.Book', related_name='aut_books', blank=True)
     created_data = models.DateTimeField(auto_now_add=True)    
     
     def __str__(self):
@@ -28,7 +27,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField('Названия книги', max_length=100)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
+    author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE, verbose_name='Автор')
     price = models.DecimalField('Цена', max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     publication_year = models.PositiveBigIntegerField('Год издания')
