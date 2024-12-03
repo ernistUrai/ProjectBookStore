@@ -32,7 +32,7 @@ class AuthorListAPIView(viewsets.ReadOnlyModelViewSet):
     
 
 
-class BookListApiView(viewsets.ReadOnlyModelViewSet):
+class BookListAPIView(viewsets.ReadOnlyModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     
@@ -49,27 +49,53 @@ class BookListApiView(viewsets.ReadOnlyModelViewSet):
     
     
 class ComentBookAPIView(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     queryset = ComentBook.objects.all()
     serializer_class = ComentBookSerializer
     
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
     
     
 class CartAPIView(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Cart.objects.filter(user=self.request.user)
+        return Cart.objects.none()
+    
+    def create(self, request, *args, **kwargs):
+        if request.user.is_anonymous:
+            return Response(
+                {'message': 'Вы не авторизованы'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+        if Cart.objects.filter(user=request.user).exists():
+            return Response(
+                {'message': 'Вы уже в корзине'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return super().create(request, *args, **kwargs)
+    
+    
+    
 class CartItemAPIView(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     
+    
+    
 class OrderAPIView(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
     
     queryset = Order.objects.all()
@@ -85,109 +111,34 @@ class OrderAPIView(viewsets.ModelViewSet):
             return Order.objects.filter(user=user)
         return Order.objects.none()
     
+    
    
-    
-    
-# # Поиск 
-# class BookSearchView(APIView):
-#     def get(self, request):
-#         search = request.GET.get('search')
-       
-#         if not search:
-#             return Response({'message': 'Поисковое слово не может быть пустым!'}, status=status.HTTP_400_BAD_REQUEST)
-        
-#         books = Book.objects.filter(
-#             Q(title__icontains=search) | Q(author__icontains=search) | Q(description__icontains=search) | Q(price__icontains=search)
-#         )
-        
-#         if not books:
-#             return Response({'message': 'Ничего не найдено'})
-        
-        
-#         serializer = BookSerializer(books, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-# # Класс для создания заказа
-# class OrderView(APIView):
-#     permission_classes = [IsAuthenticated]
-    
-#     def post(self, request, *args, **kwargs):
-#         books = request.data.get('books', [])
-#         delivery_address = request.data.get('delivery_address')
-        
-#         book_objects = Book.objects.filter(id__in=books)
-        
-#         if not book_objects.exists():
-#             return Response({"error": "Китептер табылган жок."}, status=status.HTTP_400_BAD_REQUEST)
-        
-#         total_price = sum([book.price for book in book_objects])
-        
-#         order = Order.objects.create(
-#             user=request.user,
-#             delivery_address=delivery_address,
-#             total_price=total_price,
-#             payment_status='pending' 
-#         )
-        
-#         order.books.set(book_objects)
-#         order.save()
-        
-#         serializer = OrderSerializer(order)  
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
 
-# # Смотреть список заказов
-# class UserOrderListView(APIView):
-#     permission_classes = [IsAuthenticated]
     
-#     def get(self, request, *args, **kwargs):
-#         order = Order.objects.filter(user=request.user)
-#         serializer = OrderSerializer(order, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+# Поиск 
+
+class BookSearchView(viewsets.ViewSet):  
+    queryset = Book.objects.all()
     
-    
-    
-# # Довать книгу в избранное
-# class FavoriteBookView(APIView):
-#     permission_classes = [IsAuthenticated]
-    
-#     def get(self, request):
-#         favorite_books = FavoriteBook.objects.filter(user=request.user)
-#         serializer = FavoriteBookSerializer(favorite_books, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-#     def post(self, request):
-#         book_id = request.data.get('book')
-#         try:
-#             book = Book.objects.get(id=book_id)
-#         except Book.DoesNotExist:
-#             return Response(
-#                 {'message': 'Книга не найдена'},
-#                 status=status.HTTP_404_NOT_FOUND
-#             )
+    def list(self, request):
+        search = request.GET.get('search')
+       
+        if not search:
+            return request(
+                {"message": "Поисковое слово не может быть пустым!"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
-#         favorite, create = FavoriteBook.objects.get_or_create(user=request.user, book=book)
-#         if not create:
-#             return Response(
-#                 {'message': 'Книга уже добавлена в избранное'},
-#                 status=status.HTTP_400_BAD_REQUEST
-#             )
+        books = Book.objects.filter(
+            Q(title__icontains=search) |  # Туура жазылыш
+            Q(author__name__icontains=search) | 
+            Q(description__icontains=search) | 
+            Q(price__icontains=search)
+        )
         
-#         serializer = FavoriteBookSerializer(favorite)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-#         def delete(self, request):
-#             book_id = request.data.get('book')
-#             try:
-#                 favorite = FavoriteBook.objects.get(user=request.user, book=book_id)
-#             except Book.DoesNotExist:
-#                 return Response(
-#                     {'message': 'Книга не найдена'},
-#                     status=status.HTTP_404_NOT_FOUND
-#                 )
-#             favorite.delete()
-#             return Response(
-#                 {'message': 'Книга успешно удалена из избранного'},
-#                 status=status.HTTP_204_NO_CONTENT
-#             )
+        if not books:
+            return Response(
+                {"message": "Ничего не найдено"},
+            )
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

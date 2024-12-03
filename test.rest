@@ -6,7 +6,7 @@ Content-Type: application/json
 
 
 ### Получение книги по id
-GET http://127.0.0.1:8000/api/books/1/
+GET http://127.0.0.1:8000/api/books/2/
 Content-Type: application/json
 
 ### Получение книги по id
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 
 ### Поиск книг
-GET http://127.0.0.1:8000/api/books/search/?search=Жамила
+GET http://127.0.0.1:8000/api/search/?search=
 Content-Type: application/json
 
 ###
@@ -34,7 +34,7 @@ POST   http://127.0.0.1:8000/api/auth/register/
 Content-Type: application/json
 
 {
-    "username": "test",
+    "username": "test3",
     "email": "test@test.ru",
     "password": "123456"
     
@@ -66,21 +66,22 @@ Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 ###
 POST http://127.0.0.1:8000/api/cart/
 Content-Type: application/json
-Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+Authorization: Token b10d2dc9ac0f123c850eff2a7089b4008bfe5e0e
 
 {
     "user": "3"
 }
 
 ### Получение количества товаров в корзине
-GET http://127.0.0.1:8000/api/cart/
-Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+GET  http://127.0.0.1:8000/api/cart/
+Authorization: Token 42dd0d202c22744deab8147d68bbfa7bc311d3f2
+
 
 
 ### Добавление товара в корзину
-POST http://127.0.0.1:8000/api/cart-items/
+GET  http://127.0.0.1:8000/api/cart-items/
 Content-Type: application/json
-Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+Authorization: Token 42dd0d202c22744deab8147d68bbfa7bc311d3f2
 
 {
     "cart": 3,
@@ -91,22 +92,31 @@ Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
 ### 
 POST http://127.0.0.1:8000/api/orders/
 Content-Type: application/json
-Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+Authorization: Token 42dd0d202c22744deab8147d68bbfa7bc311d3f2
 
 {
     "user": 1,
     "cart": 3,
     "delivery_address": "Kyrgyzstan",
-    "total_price": 1000,
+    "total_price": 9990,
     "payment_status": "Наличными"
 
 }
 
 ### Получение списка заказов
 GET http://127.0.0.1:8000/api/orders/
-Authorization: Token 5e410554bf1bd1b0dbd6dc51b4eb6c859df3d9a8
+Authorization: Token 42dd0d202c22744deab8147d68bbfa7bc311d3f2
 
 
 ###
+POST http://127.0.0.1:8000/api/coments/
+Content-Type: application/json
+Authorization: Token 42dd0d202c22744deab8147d68bbfa7bc311d3f2
 
+{
+    "user": 1,
+    "book": 1,
+    "coment": "Хорошая книга",
+    "rating_book": "5"
+}
 

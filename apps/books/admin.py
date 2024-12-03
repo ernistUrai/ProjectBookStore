@@ -7,7 +7,6 @@ admin.site.register(Book)
 admin.site.register(Order)
 admin.site.register(ComentBook)
 admin.site.register(Author)
-# admin.site.register(FavoriteBook)
 admin.site.register(Cart)
 admin.site.register(CartItem)
 
