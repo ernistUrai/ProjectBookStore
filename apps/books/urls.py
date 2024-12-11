@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from .views import *
+from .filters import BookFilter
 
 router = DefaultRouter()
 
@@ -12,8 +13,7 @@ router.register(r'coments', ComentBookAPIView, basename='coment-book')
 router.register(r'cart', CartAPIView)
 router.register(r'cart-items', CartItemAPIView)
 router.register(r'orders', OrderAPIView)
-router.register(r'search', BookSearchView, basename='search')
-
+router.register(r'search', BookFilter, basename='search')
 urlpatterns = [
     path('', include(router.urls)),
 ]

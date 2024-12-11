@@ -6,9 +6,8 @@ from rest_framework import status, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
-
-from django.db.models import Q
-
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import BookFilter
 from .models import Book, Order, ComentBook, Author, Cart, CartItem
 from .serializers import BookSerializer, OrderSerializer, ComentBookSerializer, AuthorSerializer, CartSerializer, CartItemSerializer
 
@@ -35,6 +34,8 @@ class AuthorListAPIView(viewsets.ReadOnlyModelViewSet):
 class BookListAPIView(viewsets.ReadOnlyModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    filterset_class = BookFilter
+    
     
     def retrieve(self, request, *args, **kwargs):
         book = self.get_object()
@@ -109,36 +110,33 @@ class OrderAPIView(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_authenticated:
             return Order.objects.filter(user=user)
-        return Order.objects.none()
-    
-    
-   
+        return Order.objects.none()   
 
     
 # Поиск 
 
-class BookSearchView(viewsets.ViewSet):  
-    queryset = Book.objects.all()
+# class BookSearchView(viewsets.ViewSet):  
+#     queryset = Book.objects.all()
     
-    def list(self, request):
-        search = request.GET.get('search')
+#     def list(self, request):
+#         search = request.GET.get('search')
        
-        if not search:
-            return request(
-                {"message": "Поисковое слово не может быть пустым!"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+#         if not search:
+#             return request(
+#                 {"message": "Поисковое слово не может быть пустым!"},
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
         
-        books = Book.objects.filter(
-            Q(title__icontains=search) |  # Туура жазылыш
-            Q(author__name__icontains=search) | 
-            Q(description__icontains=search) | 
-            Q(price__icontains=search)
-        )
+#         books = Book.objects.filter(
+#             Q(title__icontains=search) |  
+#             Q(author__name__icontains=search) | 
+#             Q(description__icontains=search) | 
+#             Q(price__icontains=search)
+#         )
         
-        if not books:
-            return Response(
-                {"message": "Ничего не найдено"},
-            )
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         if not books:
+#             return Response(
+#                 {"message": "Ничего не найдено"},
+#             )
+#         serializer = BookSerializer(books, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
