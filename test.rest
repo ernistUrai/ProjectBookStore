@@ -3,7 +3,9 @@ GET   http://127.0.0.1:8000/api/books/
 Content-Type: application/json
 
 
-
+### Фильтрация книг
+GET   http://127.0.0.1:8000/api/books/?title=Жамила
+Content-Type: application/json
 
 ### Получение книги по id
 GET http://127.0.0.1:8000/api/books/2/

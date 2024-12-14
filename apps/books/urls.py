@@ -13,7 +13,6 @@ router.register(r'coments', ComentBookAPIView, basename='coment-book')
 router.register(r'cart', CartAPIView)
 router.register(r'cart-items', CartItemAPIView)
 router.register(r'orders', OrderAPIView)
-router.register(r'search', BookFilter, basename='search')
 urlpatterns = [
     path('', include(router.urls)),
 ]
