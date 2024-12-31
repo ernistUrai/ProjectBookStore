@@ -15,7 +15,7 @@ from .serializers import BookSerializer, OrderSerializer, ComentBookSerializer, 
 
 
 
-class AuthorListAPIView(viewsets.ReadOnlyModelViewSet):
+class AuthorListAPIView(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
@@ -32,7 +32,7 @@ class AuthorListAPIView(viewsets.ReadOnlyModelViewSet):
     
 
 
-class BookListAPIView(viewsets.ReadOnlyModelViewSet):
+class BookListAPIView(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     filter_backends = [DjangoFilterBackend] 
@@ -114,30 +114,3 @@ class OrderAPIView(viewsets.ModelViewSet):
         return Order.objects.none()   
 
     
-# Поиск 
-
-# class BookSearchView(viewsets.ViewSet):  
-#     queryset = Book.objects.all()
-    
-#     def list(self, request):
-#         search = request.GET.get('search')
-       
-#         if not search:
-#             return request(
-#                 {"message": "Поисковое слово не может быть пустым!"},
-#                 status=status.HTTP_400_BAD_REQUEST
-#             )
-        
-#         books = Book.objects.filter(
-#             Q(title__icontains=search) |  
-#             Q(author__name__icontains=search) | 
-#             Q(description__icontains=search) | 
-#             Q(price__icontains=search)
-#         )
-        
-#         if not books:
-#             return Response(
-#                 {"message": "Ничего не найдено"},
-#             )
-#         serializer = BookSerializer(books, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
